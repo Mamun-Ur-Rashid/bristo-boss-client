@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.drawer-side a.active{
+    color: white;
+}
+.drawer-side a{
+    background-color: transparent;
+}
+.table thead{
+    background: #D1A054;
+}
+.t-header{
+    @apply bg-[#D1A054]
+}
+.table::-webkit-scrollbar {
+    display: none;
+  }
