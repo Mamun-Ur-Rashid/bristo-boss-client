@@ -1,11 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import SectionTitle from '../../../shared/sectionTitle/SectionTitle';
+import UseAxiosSecure from '../../../hooks/UseAxiosSecure';
+import Swal from 'sweetalert2';
 
 const img_hosting_token = import.meta.env.VITE_image_secret;
 const AddItem = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${img_hosting_token}`
+    const [axiosSecure] =UseAxiosSecure();
+    const { register, handleSubmit } = useForm();
+    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
     const onSubmit = data => {
         const formData = new FormData();
         formData.append('image', data.image[0])
@@ -20,10 +23,21 @@ const AddItem = () => {
             const {name, price, category, recipe} = data;
             const newItem = {name, price: parseFloat(price), category, recipe, image:imgURL}
             console.log(newItem);
+            axiosSecure.post('/menu', newItem)
+            .then(data => {
+               if(data.data.insertedId){
+                Swal.fire({
+                    position: 'top-right',
+                    icon: 'success',
+                    title: 'Your item successfully added',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+               }
+            })
            }
         })
     }
-    console.log(img_hosting_token);
     return (
         <div className='w-full mt-14'>
             <SectionTitle subHeading={"What's new?"} heading={"add an item"}></SectionTitle>

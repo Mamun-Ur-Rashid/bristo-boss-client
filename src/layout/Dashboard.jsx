@@ -23,9 +23,9 @@ const Dashboard = () => {
                         <li><p className='flex flex-col justify-start items-start'><span className='text-3xl font-bold '>Bristo Boss </span> Restaurant</p></li>
                         {
                             isAdmin ? <>
-                                <li><NavLink to='/dashboard/home'><FaHome></FaHome> Admin Home</NavLink></li>
+                                <li><NavLink to='/dashboard/adminHome'><FaHome></FaHome> Admin Home</NavLink></li>
                                 <li><NavLink to='/dashboard/addItem'><FaUtensils></FaUtensils> Add an Items</NavLink></li>
-                                <li><NavLink to='/dashboard/history'><FaWallet></FaWallet> Mange Items</NavLink></li>
+                                <li><NavLink to='/dashboard/manageItems'><FaWallet></FaWallet> Mange Items</NavLink></li>
                                 <li><NavLink to='/dashboard/history'><FaBook></FaBook> Manage Bookings</NavLink></li>
                                 <li><NavLink to='/dashboard/allUsers'><FaUsers></FaUsers> All Users</NavLink></li>
                                
@@ -37,9 +37,9 @@ const Dashboard = () => {
                                 <li><NavLink to='/contact'><FaRegEnvelope></FaRegEnvelope> Contact</NavLink></li>
                             </> :
                                 <>
-                                    <li><NavLink to='/dashboard/home'><FaHome></FaHome> User Home</NavLink></li>
+                                    <li><NavLink to='/dashboard/userHome'><FaHome></FaHome> User Home</NavLink></li>
                                     <li><NavLink to='/dashboard/reservation'><FaCalendarAlt></FaCalendarAlt> Reservations</NavLink></li>
-                                    <li><NavLink to='/dashboard/history'><FaWallet></FaWallet> Payment History</NavLink></li>
+                                    <li><NavLink to='/dashboard/payment'><FaWallet></FaWallet> Payment History</NavLink></li>
                                     <li>
                                         <NavLink to='/dashboard/myCart'><FaShoppingCart></FaShoppingCart> My Cart
                                             <div className="badge badge-secondary">+{cart?.length || 0}</div>

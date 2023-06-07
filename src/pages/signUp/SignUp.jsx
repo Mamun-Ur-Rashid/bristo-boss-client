@@ -1,8 +1,7 @@
 import React from 'react';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Form, useForm } from 'react-hook-form';
-import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa';
+import { useForm } from 'react-hook-form';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
@@ -11,7 +10,7 @@ import SocialSignIn from '../../shared/socialSignIn/SocialSignIn';
 
 const SignUp = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const { createUser, updateUserProfile, signInGoogle } = useContext(AuthContext);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
     const onSubmit = data => {
         console.log(data);

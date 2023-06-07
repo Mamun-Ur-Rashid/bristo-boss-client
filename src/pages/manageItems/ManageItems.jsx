@@ -1,18 +1,18 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import useCart from '../../../hooks/useCart';
+import SectionTitle from '../../shared/sectionTitle/SectionTitle';
+import useMenu from '../../hooks/useMenu';
 import { FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
+import UseAxiosSecure from '../../hooks/UseAxiosSecure';
 
-const MYCart = () => {
-    const [cart, refetch] = useCart();
-    const total = cart.reduce((sum, item) => item.price + sum, 0);
+const ManageItems = () => {
+    const [menu, , refetch] = useMenu();
+    const [axiosSecure] = UseAxiosSecure();
 
-    const handlerDelete = (item) => {
+    const handlerDelete =(item) => {
         Swal.fire({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: "You want to delete item!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -20,35 +20,23 @@ const MYCart = () => {
             confirmButtonText: 'Yes, delete it!'
           }).then((result) => {
             if (result.isConfirmed) {
-             fetch(`http://localhost:5000/carts/${item._id}`,{
-                method: 'DELETE'
-             })
-             .then(res => res.json())
-             .then(data => {
-                if(data.deletedCount > 0){
+              axiosSecure.delete(`/menu/${item._id}`)
+              .then(res => {
+                if(res.data.deletedCount > 0){
                     refetch();
                     Swal.fire(
                         'Deleted!',
-                        'Your file has been deleted.',
+                        'Your item has been deleted.',
                         'success'
                       )
                 }
-             })
+              })
             }
           })
     }
     return (
-        <div className='mt-64'>
-            <Helmet>
-                <title>Bristo Boos | MyCart</title>
-            </Helmet>
-            <div className='uppercase  flex justify-between items-center gap-14 my-4'>
-                <h3 className='text-3xl font-bold'>Total Items : {cart.length}</h3>
-                <h3 className='text-3xl font-bold ' >Total price : $ {total}</h3>
-                <div className=''>
-                   <Link to='/dashboard/payment'> <button className="btn btn-warning  btn-sm">Pay</button></Link>
-                </div>
-            </div>
+        <div>
+            <SectionTitle subHeading="hurry up!" heading={"manage all items"}></SectionTitle>
             <div className="overflow-hidden w-full">
                 <table className="table w-full">
                     {/* head */}
@@ -58,12 +46,13 @@ const MYCart = () => {
                             <th>Item Image</th>
                             <th>Item Name</th>
                             <th>Price</th>
+                            <th>Edith</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            cart.map((item, index) => <tr key={item._id}>
+                            menu.map((item, index) => <tr key={item._id}>
                                 <td>{index + 1}</td>
                                 <td> <div className="avatar">
                                     <div className="mask mask-squircle w-12 h-12">
@@ -72,6 +61,7 @@ const MYCart = () => {
                                 </div></td>
                                 <td>{item.name}</td>
                                 <td>$ {item.price}</td>
+                                <td><button onClick={() => handleUpdated(item)} className='btn btn-ghost bg-red-600 text-white'><FaTrashAlt></FaTrashAlt></button></td>
                                 <td><button onClick={() => handlerDelete(item)} className='btn btn-ghost bg-red-600 text-white'><FaTrashAlt></FaTrashAlt></button></td>
                             </tr>)
                         }
@@ -83,4 +73,4 @@ const MYCart = () => {
     );
 };
 
-export default MYCart;
+export default ManageItems;
